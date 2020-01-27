@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 
 import { ProductService } from '../../common/services/product.service';
 import { Product } from '../../common/models/product.model';
@@ -11,28 +11,23 @@ import { Product } from '../../common/models/product.model';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['imageUrl', 'name', 'unitPrice', 'unitsInStock'];
-  dataSource = new MatTableDataSource<Product>();
+  products$: Observable<Product[]>;
+  routeParamsSubscription: Subscription;
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-
-  getProductsSubscription: Subscription;
-
-  constructor(private productService: ProductService) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.dataSource.data = [];
-    this.dataSource.sort = this.sort;
-
-    this.getProducts();
+    this.routeParamsSubscription = this.route.params
+      .subscribe((params: Params) => this.getProducts(+params.id));
   }
 
   ngOnDestroy() {
-    this.getProductsSubscription.unsubscribe();
+    this.routeParamsSubscription.unsubscribe();
   }
 
-  getProducts() {
-    this.getProductsSubscription = this.productService.getProducts()
-      .subscribe((products: Product[]) => this.dataSource.data = products);
+  getProducts(productCategoryId: number) {
+    this.products$ = isNaN(productCategoryId) ?
+      this.productService.getProducts() :
+      this.productService.getProductsByCategoryId(productCategoryId);
   }
 }

@@ -4,21 +4,33 @@ import { tap, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { Product } from '../models/product.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
-  private BASE_URL: string = 'http://localhost:8080/api';
-  private PRODUCT_BASE_URL: string = `${this.BASE_URL}/product`;
+  private PRODUCT_URL: string = `${environment.baseUrl}/product`;
+  private PRODUCT_BY_CATEGORY_URL: string = `${this.PRODUCT_URL}/search/findByCategoryId?id=`;
+  // Can't use the JPARepository auto generated URL below, because it does not implement pagination bu default
+  // private PRODUCT_BY_CATEGORY_URL: string = `http://localhost:8080/api/product-category/?/products`;
 
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<Product[]> {
-    return this.http.get<GetProducts>(this.PRODUCT_BASE_URL)
+    return this.http.get<GetProducts>(this.PRODUCT_URL)
       .pipe(
         map((value: GetProducts) => value._embedded.product),
-        tap(value => console.log(value))
+        // tap(value => console.log(value))
+      );
+  }
+
+  getProductsByCategoryId(productCategoryId: number): Observable<Product[]> {
+    // return this.http.get<GetProducts>(this.PRODUCT_BY_CATEGORY_URL.replace('?', productCategoryId + ''))
+    return this.http.get<GetProducts>(this.PRODUCT_BY_CATEGORY_URL + productCategoryId + "")
+      .pipe(
+        map((value: GetProducts) => value._embedded.product),
+        // tap(value => console.log(value))
       );
   }
 }
