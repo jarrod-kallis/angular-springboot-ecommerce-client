@@ -6,6 +6,7 @@ import { ProductListComponent } from './product/product-list/product-list.compon
 const routes: Routes = [
   { path: 'products/category/:id', component: ProductListComponent },
   { path: 'products', component: ProductListComponent },
+  { path: 'search/:keyword', component: ProductListComponent },
   { path: '', redirectTo: 'products', pathMatch: 'full' },
   { path: '**', redirectTo: 'products', pathMatch: 'full' }
 ]

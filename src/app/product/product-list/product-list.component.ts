@@ -18,16 +18,31 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeParamsSubscription = this.route.params
-      .subscribe((params: Params) => this.getProducts(+params.id));
+      .subscribe((params: Params) => {
+        // console.log(params);
+        if (params.id) {
+          this.getProductsByCategoryId(+params.id);
+        } else if (params.keyword) {
+          this.getProductsByName(params.keyword);
+        } else {
+          this.getProducts();
+        }
+      });
   }
 
   ngOnDestroy() {
     this.routeParamsSubscription.unsubscribe();
   }
 
-  getProducts(productCategoryId: number) {
-    this.products$ = isNaN(productCategoryId) ?
-      this.productService.getProducts() :
-      this.productService.getProductsByCategoryId(productCategoryId);
+  getProductsByCategoryId(productCategoryId: number) {
+    this.products$ = this.productService.getProductsByCategoryId(productCategoryId);
+  }
+
+  getProductsByName(productName: string) {
+    this.products$ = this.productService.getProductsByNameContaining(productName);
+  }
+
+  getProducts() {
+    this.products$ = this.productService.getProductList();
   }
 }
