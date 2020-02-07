@@ -10,7 +10,7 @@ import { ProductCategory } from '../models/product-category.model';
   providedIn: 'root'
 })
 export class ProductCategoryService {
-  private PRODUCT_CATEGORY_URL: string = `${environment.baseUrl}/product-category`;
+  private PRODUCT_CATEGORY_URL = `${environment.baseUrl}/product-category`;
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +26,5 @@ export class ProductCategoryService {
 interface GetProductCategories {
   _embedded: {
     productCategory: ProductCategory[]
-  }
+  };
 }

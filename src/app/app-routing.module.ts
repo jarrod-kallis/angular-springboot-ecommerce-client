@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'search/:keyword', component: ProductListComponent },
   { path: '', redirectTo: 'products', pathMatch: 'full' },
   { path: '**', redirectTo: 'products', pathMatch: 'full' }
-]
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

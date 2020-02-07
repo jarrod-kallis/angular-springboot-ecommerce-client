@@ -36,12 +36,12 @@ export class ProductService {
       .pipe(
         map((value: GetProducts) => value._embedded.product),
         // tap(value => console.log(value))
-      )
+      );
   }
 }
 
 interface GetProducts {
   _embedded: {
     product: Product[]
-  }
+  };
 }
