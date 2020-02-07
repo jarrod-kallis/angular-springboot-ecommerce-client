@@ -10,11 +10,11 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ProductService {
-  private PRODUCT_URL: string = `${environment.baseUrl}/product`;
-  private PRODUCT_BY_CATEGORY_URL: string = `${this.PRODUCT_URL}/search/findByCategoryId?id=`;
+  private PRODUCT_URL = `${environment.baseUrl}/product`;
+  private PRODUCT_BY_CATEGORY_URL = `${this.PRODUCT_URL}/search/findByCategoryId?id=`;
   // Can't use the JPARepository auto generated URL below, because it does not implement pagination bu default
   // private PRODUCT_BY_CATEGORY_URL: string = `http://localhost:8080/api/product-category/?/products`;
-  private PRODUCT_BY_NAME_LIKE_URL: string = `${this.PRODUCT_URL}/search/findByNameContaining?name=`;
+  private PRODUCT_BY_NAME_LIKE_URL = `${this.PRODUCT_URL}/search/findByNameContaining?name=`;
 
   constructor(private http: HttpClient) { }
 
@@ -24,7 +24,7 @@ export class ProductService {
 
   getProductsByCategoryId(productCategoryId: number): Observable<Product[]> {
     // return this.http.get<GetProducts>(this.PRODUCT_BY_CATEGORY_URL.replace('?', productCategoryId + ''))
-    return this.getProducts(this.PRODUCT_BY_CATEGORY_URL + productCategoryId + "");
+    return this.getProducts(this.PRODUCT_BY_CATEGORY_URL + productCategoryId + '');
   }
 
   getProductsByNameContaining(name: string): Observable<Product[]> {
