@@ -9,13 +9,15 @@ import { ProductListComponent } from './product/product-list/product-list.compon
 import { MenuSidebarContentComponent } from './navigation/menu-sidebar-content/menu-sidebar-content.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SearchComponent } from './components/search/search.component';
+import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ProductListComponent,
     MenuSidebarContentComponent,
-    SearchComponent
+    SearchComponent,
+    ProductDetailComponent
   ],
   imports: [
     BrowserModule,

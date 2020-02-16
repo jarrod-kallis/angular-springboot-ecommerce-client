@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 
 import { ProductService } from '../../common/services/product.service';
@@ -14,7 +14,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   products$: Observable<Product[]>;
   routeParamsSubscription: Subscription;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.routeParamsSubscription = this.route.params
@@ -44,5 +44,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   getProducts() {
     this.products$ = this.productService.getProductList();
+  }
+
+  onProductClick(productId: number) {
+    this.router.navigate(['products', productId]);
   }
 }

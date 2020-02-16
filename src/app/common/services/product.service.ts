@@ -38,6 +38,10 @@ export class ProductService {
         // tap(value => console.log(value))
       );
   }
+
+  getProduct(productId: number): Observable<Product> {
+    return this.http.get<Product>(`${this.PRODUCT_URL}/${productId}`);
+  }
 }
 
 interface GetProducts {

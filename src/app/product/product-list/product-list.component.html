@@ -3,9 +3,11 @@
     <div class="row">
       <div *ngFor="let product of products$ | async" class="col-md-3">
         <div class="product-box">
-          <img [src]="product.imageUrl" class="img-responsive">
-          <h1>{{product.name}}</h1>
-          <div class="price">{{product.unitPrice | currency:'EUR'}}</div>
+          <div (click)="onProductClick(product.id)">
+            <img [src]="product.imageUrl" class="img-responsive">
+            <h1>{{product.name}}</h1>
+            <div class="price">{{product.unitPrice | currency:'EUR'}}</div>
+          </div>
           <a href="#" class="primary-btn">Add to cart</a>
         </div>
       </div>
