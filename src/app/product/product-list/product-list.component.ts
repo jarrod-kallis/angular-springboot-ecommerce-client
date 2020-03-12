@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 
 import { ProductService } from '../../common/services/product.service';
-import { Product } from '../../common/models/product.model';
 import { ProductCategoryService } from '../../common/services/product-category.service';
 import { ProductCategory } from '../../common/models/product-category.model';
+import { map } from 'rxjs/operators';
+import { PagedProducts } from '../../common/models/paged-products.model';
 
 @Component({
   selector: 'app-product-list',
@@ -13,9 +14,15 @@ import { ProductCategory } from '../../common/models/product-category.model';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent implements OnInit, OnDestroy {
-  products$: Observable<Product[]>;
+  pagedProducts$: Observable<PagedProducts>;
   productCategory$: Observable<ProductCategory>;
+
+  pageNumber: number;
+  pageSize: number;
+  collectionSize: number;
+
   routeParamsSubscription: Subscription;
+  pagedProductsSubscription: Subscription;
 
   constructor(
     private productService: ProductService,
@@ -25,26 +32,36 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.routeParamsSubscription = this.route.params
-      .subscribe((params: Params) => {
-        // console.log(params);
-        if (params.id) {
-          this.getProductsByCategoryId(+params.id);
-          this.getProductCategory(+params.id);
-        } else if (params.keyword) {
-          this.getProductsByName(params.keyword);
+    this.routeParamsSubscription = combineLatest(this.route.params, this.route.queryParams)
+      .pipe(
+        map((results: any[]) => ({ params: results[0], queryParams: results[1] }))
+      )
+      .subscribe(results => {
+        // console.log(results);
+
+        if (results.params.id) {
+          this.getProductsByCategoryId(+results.params.id, +results.queryParams.page);
+          this.getProductCategory(+results.params.id);
+        } else if (results.params.keyword) {
+          this.getProductsByName(results.params.keyword);
         } else {
-          this.getProducts();
+          // console.log(+results.queryParams.page);
+          this.getProducts(+results.queryParams.page);
         }
       });
   }
 
   ngOnDestroy() {
     this.routeParamsSubscription.unsubscribe();
+
+    if (this.pagedProductsSubscription) {
+      this.pagedProductsSubscription.unsubscribe();
+    }
   }
 
-  getProductsByCategoryId(productCategoryId: number) {
-    this.products$ = this.productService.getProductsByCategoryId(productCategoryId);
+  getProductsByCategoryId(productCategoryId: number, page: number) {
+    this.pagedProducts$ = this.productService.getProductsByCategoryId(productCategoryId, page - 1);
+    this.subscribeToPagination();
   }
 
   getProductCategory(productCategoryId: number) {
@@ -52,14 +69,28 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   getProductsByName(productName: string) {
-    this.products$ = this.productService.getProductsByNameContaining(productName);
+    this.pagedProducts$ = this.productService.getProductsByNameContaining(productName);
   }
 
-  getProducts() {
-    this.products$ = this.productService.getProductList();
+  getProducts(page: number) {
+    this.pagedProducts$ = this.productService.getProductList(page - 1);
+    this.subscribeToPagination();
+  }
+
+  subscribeToPagination(): void {
+    this.pagedProductsSubscription = this.pagedProducts$.subscribe((pagedProduct: PagedProducts) => {
+      // console.log(this, pagedProduct.page);
+      this.pageNumber = pagedProduct.page.number + 1;
+      this.pageSize = pagedProduct.page.size;
+      this.collectionSize = pagedProduct.page.totalElements;
+    });
   }
 
   onProductClick(productId: number) {
     this.router.navigate(['products', productId]);
+  }
+
+  onPageChange(page: number) {
+    this.router.navigate([], { queryParams: { page } });
   }
 }

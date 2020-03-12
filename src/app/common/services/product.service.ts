@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 import { Product } from '../models/product.model';
 import { environment } from '../../../environments/environment';
+import { Page } from '../models/page.model';
+import { PagedProducts } from '../models/paged-products.model';
+import { PAGE_SIZE } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -18,23 +21,30 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProductList(): Observable<Product[]> {
-    return this.getProducts(this.PRODUCT_URL);
+  getProductList(page: number): Observable<PagedProducts> {
+    // console.log(`${this.PRODUCT_URL}?page=${page}&size=${PAGE_SIZE}`);
+    return this.getProducts(`${this.PRODUCT_URL}?page=${page}&size=${PAGE_SIZE}`);
   }
 
-  getProductsByCategoryId(productCategoryId: number): Observable<Product[]> {
+  getProductsByCategoryId(productCategoryId: number, page: number): Observable<PagedProducts> {
     // return this.http.get<GetProducts>(this.PRODUCT_BY_CATEGORY_URL.replace('?', productCategoryId + ''))
-    return this.getProducts(this.PRODUCT_BY_CATEGORY_URL + productCategoryId + '');
+    return this.getProducts(`${this.PRODUCT_BY_CATEGORY_URL}${productCategoryId}&page=${page}&size=${PAGE_SIZE}`);
   }
 
-  getProductsByNameContaining(name: string): Observable<Product[]> {
+  getProductsByNameContaining(name: string): Observable<PagedProducts> {
     return this.getProducts(this.PRODUCT_BY_NAME_LIKE_URL + name);
   }
 
-  private getProducts(url: string): Observable<Product[]> {
+  private getProducts(url: string): Observable<PagedProducts> {
     return this.http.get<GetProducts>(url)
       .pipe(
-        map((value: GetProducts) => value._embedded.product),
+        map((value: GetProducts) => {
+          const pagedProducts: PagedProducts = new PagedProducts();
+          pagedProducts.products = value._embedded.product;
+          pagedProducts.page = value.page;
+
+          return pagedProducts;
+        })
         // tap(value => console.log(value))
       );
   }
@@ -48,4 +58,5 @@ interface GetProducts {
   _embedded: {
     product: Product[]
   };
+  page: Page;
 }

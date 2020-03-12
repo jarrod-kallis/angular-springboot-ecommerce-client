@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { ProductListComponent } from './product/product-list/product-list.component';
@@ -24,7 +25,8 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
     HttpClientModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

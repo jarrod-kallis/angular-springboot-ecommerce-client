@@ -1,10 +1,14 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
-    <h4 *ngIf="productCategory$ | async">Category: {{ (productCategory$ | async)?.name }}</h4>
+    <div class="header">
+      <h4 *ngIf="productCategory$ | async">Category: {{ (productCategory$ | async)?.name }}</h4>
+      <ngb-pagination *ngIf="pageNumber" [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="collectionSize"
+        class="d-flex justify-content-end" (pageChange)="onPageChange($event)"></ngb-pagination>
+    </div>
     <hr *ngIf="productCategory$ | async">
 
     <div class="row">
-      <div *ngFor="let product of products$ | async" class="col-md-3">
+      <div *ngFor="let product of (pagedProducts$ | async)?.products" class="col-md-3">
         <div class="product-box">
           <div (click)="onProductClick(product.id)">
             <img [src]="product.imageUrl" class="img-responsive">
@@ -15,7 +19,7 @@
         </div>
       </div>
 
-      <div *ngIf="(products$ | async)?.length === 0" class="alert alert-warning col-12" role="alert">
+      <div *ngIf="(pagedProducts$ | async)?.products?.length === 0" class="alert alert-warning col-12" role="alert">
         No products found
       </div>
     </div>
