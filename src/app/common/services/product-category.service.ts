@@ -21,6 +21,15 @@ export class ProductCategoryService {
         // tap((productCatgories: ProductCategory[]) => console.log(productCatgories))
       );
   }
+
+  getProductCategory(id: number): Observable<ProductCategory> {
+    return this.http.get<ProductCategory>(`${this.PRODUCT_CATEGORY_URL}/${id}`);
+    // .pipe(
+    //   tap((productCategory: ProductCategory) => {
+    //     console.log(productCategory);
+    //   })
+    // );
+  }
 }
 
 interface GetProductCategories {

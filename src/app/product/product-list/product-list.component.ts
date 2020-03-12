@@ -4,6 +4,8 @@ import { Observable, Subscription } from 'rxjs';
 
 import { ProductService } from '../../common/services/product.service';
 import { Product } from '../../common/models/product.model';
+import { ProductCategoryService } from '../../common/services/product-category.service';
+import { ProductCategory } from '../../common/models/product-category.model';
 
 @Component({
   selector: 'app-product-list',
@@ -12,9 +14,15 @@ import { Product } from '../../common/models/product.model';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   products$: Observable<Product[]>;
+  productCategory$: Observable<ProductCategory>;
   routeParamsSubscription: Subscription;
 
-  constructor(private productService: ProductService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private productService: ProductService,
+    private productCategoryService: ProductCategoryService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.routeParamsSubscription = this.route.params
@@ -22,6 +30,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
         // console.log(params);
         if (params.id) {
           this.getProductsByCategoryId(+params.id);
+          this.getProductCategory(+params.id);
         } else if (params.keyword) {
           this.getProductsByName(params.keyword);
         } else {
@@ -36,6 +45,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   getProductsByCategoryId(productCategoryId: number) {
     this.products$ = this.productService.getProductsByCategoryId(productCategoryId);
+  }
+
+  getProductCategory(productCategoryId: number) {
+    this.productCategory$ = this.productCategoryService.getProductCategory(productCategoryId);
   }
 
   getProductsByName(productName: string) {

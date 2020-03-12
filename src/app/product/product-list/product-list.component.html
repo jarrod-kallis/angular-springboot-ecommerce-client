@@ -1,5 +1,8 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
+    <h4 *ngIf="productCategory$ | async">Category: {{ (productCategory$ | async)?.name }}</h4>
+    <hr *ngIf="productCategory$ | async">
+
     <div class="row">
       <div *ngFor="let product of products$ | async" class="col-md-3">
         <div class="product-box">
