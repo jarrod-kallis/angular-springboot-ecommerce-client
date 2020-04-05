@@ -5,7 +5,7 @@
       <app-pagination [collectionSize]="collectionSize" [(pageNumber)]="pageNumber" [pageSize]="pageSize"
         (onPageChange)="onPageChange($event)" (onPageSizeChange)="onPageSizeChange($event)"></app-pagination>
     </div>
-    <hr>
+    <hr *ngIf="collectionSize">
 
     <div class="row">
       <div *ngFor="let product of (pagedProducts$ | async)?.products" class="col-md-3">

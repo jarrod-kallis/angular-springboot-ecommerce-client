@@ -7,6 +7,7 @@ import { ProductCategoryService } from '../../common/services/product-category.s
 import { ProductCategory } from '../../common/models/product-category.model';
 import { map, take } from 'rxjs/operators';
 import { PagedProducts } from '../../common/models/paged-products.model';
+import { SearchService } from '../../common/services/search.service';
 
 @Component({
   selector: 'app-product-list',
@@ -27,6 +28,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   constructor(
     private productService: ProductService,
     private productCategoryService: ProductCategoryService,
+    private searchService: SearchService,
     private route: ActivatedRoute,
     private router: Router
   ) { }
@@ -38,6 +40,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
       )
       .subscribe(results => {
         // console.log(results);
+
+        this.searchService.updateSearchKeyword(results.params.keyword);
 
         if (results.params.id) {
           this.getProductsByCategoryId(+results.params.id, +results.queryParams.page, +results.queryParams.pageSize);

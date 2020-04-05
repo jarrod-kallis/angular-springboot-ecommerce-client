@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { SearchService } from '../../common/services/search.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -10,18 +12,26 @@ import { Router } from '@angular/router';
 export class SearchComponent implements OnInit {
   form: FormGroup;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private route: ActivatedRoute, private searchService: SearchService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
       keyword: new FormControl('')
     });
+
+    this.searchService.searchKeyword
+      .subscribe(keyword => this.form.patchValue({ keyword }));
   }
 
   submit() {
-    if (this.form.value.keyword) {
-      // this.router.navigate(['search', this.form.value.keyword]);
-      this.router.navigateByUrl(`search/${this.form.value.keyword}`);
-    }
+    // this.router.navigateByUrl(`search/${this.form.value.keyword}`);
+
+    this.route.queryParams
+      .pipe(
+        take(1)
+      )
+      .subscribe((queryParams) => {
+        this.router.navigate(['search', this.form.value.keyword], { queryParams: { ...queryParams, page: 1 } });
+      });
   }
 }

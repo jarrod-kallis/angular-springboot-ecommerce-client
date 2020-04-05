@@ -1,6 +1,6 @@
-<div class="container">
-  <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="collectionSize"
-    (pageChange)="onPageChange.emit($event)">
+<div class="container" *ngIf="collectionSize">
+  <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="collectionSize" [maxSize]="5"
+    boundaryLinks="true" (pageChange)="onPageChange.emit($event)">
   </ngb-pagination>
 
   <select (change)="onPageSizeChange.emit($event.target.value)">

@@ -16,7 +16,7 @@ export class ProductService {
   private PRODUCT_BY_CATEGORY_URL = `${this.PRODUCT_URL}/search/findByCategoryId?id=`;
   // Can't use the JPARepository auto generated URL below, because it does not implement pagination bu default
   // private PRODUCT_BY_CATEGORY_URL: string = `http://localhost:8080/api/product-category/?/products`;
-  private PRODUCT_BY_NAME_LIKE_URL = `${this.PRODUCT_URL}/search/findByNameContaining?name=`;
+  private PRODUCT_BY_NAME_LIKE_URL = `${this.PRODUCT_URL}/search/findByNameContaining`;
 
   constructor(private http: HttpClient) { }
 
@@ -31,7 +31,7 @@ export class ProductService {
   }
 
   getProductsByNameContaining(name: string, page: number, pageSize: number): Observable<PagedProducts> {
-    return this.getProducts(`${this.PRODUCT_BY_NAME_LIKE_URL}${name}&page=${page}&size=${pageSize}`);
+    return this.getProducts(`${this.PRODUCT_BY_NAME_LIKE_URL}?name=${name}&page=${page}&size=${pageSize}`);
   }
 
   private getProducts(url: string): Observable<PagedProducts> {
