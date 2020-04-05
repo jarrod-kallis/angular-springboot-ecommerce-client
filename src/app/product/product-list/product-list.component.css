@@ -2,10 +2,6 @@
   display: flex;
 }
 
-ngb-pagination {
-  flex-grow: 1;
-}
-
 .product-box > div {
   cursor: pointer;
 }

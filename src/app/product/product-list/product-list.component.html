@@ -2,11 +2,10 @@
   <div class="section-content section-content-p30">
     <div class="header">
       <h4 *ngIf="productCategory$ | async">Category: {{ (productCategory$ | async)?.name }}</h4>
-      <ngb-pagination *ngIf="collectionSize > pageSize" [(page)]="pageNumber" [pageSize]="pageSize"
-        [collectionSize]="collectionSize" class="d-flex justify-content-end" (pageChange)="onPageChange($event)">
-      </ngb-pagination>
+      <app-pagination [collectionSize]="collectionSize" [(pageNumber)]="pageNumber" [pageSize]="pageSize"
+        (onPageChange)="onPageChange($event)" (onPageSizeChange)="onPageSizeChange($event)"></app-pagination>
     </div>
-    <hr *ngIf="productCategory$ | async">
+    <hr>
 
     <div class="row">
       <div *ngFor="let product of (pagedProducts$ | async)?.products" class="col-md-3">

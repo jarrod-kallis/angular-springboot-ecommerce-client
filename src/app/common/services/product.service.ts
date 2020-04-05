@@ -7,7 +7,6 @@ import { Product } from '../models/product.model';
 import { environment } from '../../../environments/environment';
 import { Page } from '../models/page.model';
 import { PagedProducts } from '../models/paged-products.model';
-import { PAGE_SIZE } from '../constants';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +20,18 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProductList(page: number): Observable<PagedProducts> {
+  getProductList(page: number, pageSize: number): Observable<PagedProducts> {
     // console.log(`${this.PRODUCT_URL}?page=${page}&size=${PAGE_SIZE}`);
-    return this.getProducts(`${this.PRODUCT_URL}?page=${page}&size=${PAGE_SIZE}`);
+    return this.getProducts(`${this.PRODUCT_URL}?page=${page}&size=${pageSize}`);
   }
 
-  getProductsByCategoryId(productCategoryId: number, page: number): Observable<PagedProducts> {
+  getProductsByCategoryId(productCategoryId: number, page: number, pageSize: number): Observable<PagedProducts> {
     // return this.http.get<GetProducts>(this.PRODUCT_BY_CATEGORY_URL.replace('?', productCategoryId + ''))
-    return this.getProducts(`${this.PRODUCT_BY_CATEGORY_URL}${productCategoryId}&page=${page}&size=${PAGE_SIZE}`);
+    return this.getProducts(`${this.PRODUCT_BY_CATEGORY_URL}${productCategoryId}&page=${page}&size=${pageSize}`);
   }
 
-  getProductsByNameContaining(name: string, page: number): Observable<PagedProducts> {
-    return this.getProducts(`${this.PRODUCT_BY_NAME_LIKE_URL}${name}&page=${page}&size=${PAGE_SIZE}`);
+  getProductsByNameContaining(name: string, page: number, pageSize: number): Observable<PagedProducts> {
+    return this.getProducts(`${this.PRODUCT_BY_NAME_LIKE_URL}${name}&page=${page}&size=${pageSize}`);
   }
 
   private getProducts(url: string): Observable<PagedProducts> {

@@ -1,0 +1,9 @@
+<div class="container">
+  <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize" [collectionSize]="collectionSize"
+    (pageChange)="onPageChange.emit($event)">
+  </ngb-pagination>
+
+  <select (change)="onPageSizeChange.emit($event.target.value)">
+    <option *ngFor="let _pageSize of pageSizes" [selected]="pageSize === _pageSize">{{_pageSize}}</option>
+  </select>
+</div>
