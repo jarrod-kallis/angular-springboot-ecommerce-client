@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
           this.getProductsByCategoryId(+results.params.id, +results.queryParams.page);
           this.getProductCategory(+results.params.id);
         } else if (results.params.keyword) {
-          this.getProductsByName(results.params.keyword);
+          this.getProductsByName(results.params.keyword, +results.queryParams.page);
         } else {
           // console.log(+results.queryParams.page);
           this.getProducts(+results.queryParams.page);
@@ -53,10 +53,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routeParamsSubscription.unsubscribe();
-
-    if (this.pagedProductsSubscription) {
-      this.pagedProductsSubscription.unsubscribe();
-    }
+    this.unsubscribeFromPagedProducts();
   }
 
   getProductsByCategoryId(productCategoryId: number, page: number) {
@@ -68,8 +65,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.productCategory$ = this.productCategoryService.getProductCategory(productCategoryId);
   }
 
-  getProductsByName(productName: string) {
-    this.pagedProducts$ = this.productService.getProductsByNameContaining(productName);
+  getProductsByName(productName: string, page: number) {
+    this.pagedProducts$ = this.productService.getProductsByNameContaining(productName, page - 1);
+    this.subscribeToPagination();
   }
 
   getProducts(page: number) {
@@ -77,7 +75,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.subscribeToPagination();
   }
 
+  unsubscribeFromPagedProducts() {
+    if (this.pagedProductsSubscription) {
+      this.pagedProductsSubscription.unsubscribe();
+    }
+  }
+
   subscribeToPagination(): void {
+    this.unsubscribeFromPagedProducts();
+
     this.pagedProductsSubscription = this.pagedProducts$.subscribe((pagedProduct: PagedProducts) => {
       // console.log(this, pagedProduct.page);
       this.pageNumber = pagedProduct.page.number + 1;

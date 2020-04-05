@@ -31,8 +31,8 @@ export class ProductService {
     return this.getProducts(`${this.PRODUCT_BY_CATEGORY_URL}${productCategoryId}&page=${page}&size=${PAGE_SIZE}`);
   }
 
-  getProductsByNameContaining(name: string): Observable<PagedProducts> {
-    return this.getProducts(this.PRODUCT_BY_NAME_LIKE_URL + name);
+  getProductsByNameContaining(name: string, page: number): Observable<PagedProducts> {
+    return this.getProducts(`${this.PRODUCT_BY_NAME_LIKE_URL}${name}&page=${page}&size=${PAGE_SIZE}`);
   }
 
   private getProducts(url: string): Observable<PagedProducts> {
