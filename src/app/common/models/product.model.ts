@@ -10,4 +10,21 @@ export class Product {
   public dateCreated: Date;
   public lastCreated: Date;
   public categoryId?: number;
+
+  constructor(
+    sku: string, name: string, description: string, unitPrice: number, imageUrl: string,
+    active: boolean, unitsInStock: number, dateCreated: Date, lastCreated: Date, id?: number, categoryId?: number
+  ) {
+    this.sku = sku;
+    this.name = name;
+    this.description = description;
+    this.unitPrice = unitPrice;
+    this.imageUrl = imageUrl;
+    this.active = active;
+    this.unitsInStock = unitsInStock;
+    this.dateCreated = dateCreated;
+    this.lastCreated = lastCreated;
+    this.id = id;
+    this.categoryId = categoryId;
+  }
 }

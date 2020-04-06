@@ -4,11 +4,11 @@
       <div class="row">
 
         <div *ngIf="product">
-          <img [src]="product.imageUrl" class="img-responsive"> 
+          <img [src]="product.imageUrl" class="img-responsive">
 
           <h3>{{ product.name }}</h3>
           <div class="price">{{ product.unitPrice | currency:'EUR' }}</div>
-          <a href="shopping-detail.html" class="primary-btn">Add to cart</a>
+          <app-add-to-cart [product]="product"></app-add-to-cart>
 
           <h4>Product Description</h4>
           <p>{{ product.description }}</p>

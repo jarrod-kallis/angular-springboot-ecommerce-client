@@ -12,6 +12,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
+import { AddToCartComponent } from './components/buttons/add-to-cart/add-to-cart.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     MenuSidebarContentComponent,
     SearchComponent,
     ProductDetailComponent,
-    PaginationComponent
+    PaginationComponent,
+    CartStatusComponent,
+    AddToCartComponent
   ],
   imports: [
     BrowserModule,

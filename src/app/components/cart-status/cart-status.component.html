@@ -1,0 +1,9 @@
+<div class="cart-area d-n">
+  <a href="shopping-detail.html">
+    <div class="total">
+      {{ getTotalPrice(cartStatusChange$ | async) | currency:'EUR' }}
+      <span> {{ getTotalQuantity(cartStatusChange$ | async) }}</span>
+    </div>
+    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+  </a>
+</div>
