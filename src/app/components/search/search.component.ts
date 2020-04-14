@@ -31,7 +31,6 @@ export class SearchComponent implements OnInit {
     fromEvent<KeyboardEvent>(this.searchInput.nativeElement, 'keyup')
       .pipe(
         map(event => (event.target as HTMLInputElement).value),
-        startWith(''),
         distinctUntilChanged(),
         debounce(value => value === '' ? timer(0) : timer(500)),
         tap(() => this.navigate())
@@ -51,7 +50,11 @@ export class SearchComponent implements OnInit {
         take(1)
       )
       .subscribe((queryParams) => {
-        this.router.navigate(['search', this.form.value.keyword], { queryParams: { ...queryParams, page: 1 } });
+        if (this.form.value.keyword === '') {
+          this.router.navigate(['products']);
+        } else {
+          this.router.navigate(['search', this.form.value.keyword], { queryParams: { ...queryParams, page: 1 } });
+        }
       });
   }
 }

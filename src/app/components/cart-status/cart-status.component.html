@@ -1,6 +1,6 @@
 <ng-container *ngIf="(cartStatusChange$ | async) as cartStatus">
   <div class="cart-area d-n">
-    <a href="shopping-detail.html">
+    <a routerLink="cart-details">
       <div class="total">
         {{ getTotalPrice(cartStatus) | currency:'EUR' }}
         <span> {{ getTotalQuantity(cartStatus) }}</span>

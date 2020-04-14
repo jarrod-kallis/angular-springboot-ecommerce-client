@@ -14,6 +14,7 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { CartStatusComponent } from './components/cart-status/cart-status.component';
 import { AddToCartComponent } from './components/buttons/add-to-cart/add-to-cart.component';
+import { CartDetailsComponent } from './components/cart-details/cart-details.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { AddToCartComponent } from './components/buttons/add-to-cart/add-to-cart
     ProductDetailComponent,
     PaginationComponent,
     CartStatusComponent,
-    AddToCartComponent
+    AddToCartComponent,
+    CartDetailsComponent
   ],
   imports: [
     BrowserModule,

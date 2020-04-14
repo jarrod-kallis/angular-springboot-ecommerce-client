@@ -9,36 +9,69 @@ import { CartItem } from '../models/cartItem.model';
   providedIn: 'root'
 })
 export class CartService {
-  productsInCart: CartItem[] = [];
+  private _productsInCart: CartItem[] = [];
+  private _productsInCartChanged = new BehaviorSubject<CartItem[]>([]);
+  private _productsInCart$ = this._productsInCartChanged.asObservable();
 
-  private cartStatusChanged = new BehaviorSubject<CartStatus>(new CartStatus(0, 0));
-  private _cartStatus$ = this.cartStatusChanged.asObservable();
+  private _cartStatusChanged = new BehaviorSubject<CartStatus>(new CartStatus(0, 0));
+  private _cartStatus$ = this._cartStatusChanged.asObservable();
 
   constructor() {
-    this.cartStatusChanged.next(new CartStatus(this.productsInCart.length, 0));
+    this._cartStatusChanged.next(new CartStatus(this._productsInCart.length, 0));
   }
 
-  addToCart(product: Product) {
-    const foundCartItem: CartItem = this.productsInCart.find(cartItem => cartItem.id === product.id);
-
-    if (foundCartItem) {
-      foundCartItem.quantity++;
-    } else {
-      this.productsInCart = this.productsInCart.concat(new CartItem(product));
-    }
-
+  private calculateCartTotals() {
     let totalQuantity = 0;
     let totalPrice = 0;
-    this.productsInCart.forEach(productInCart => {
+    this._productsInCart.forEach(productInCart => {
       // console.log(productInCart.name + ': ' + productInCart.quantity);
       totalQuantity += productInCart.quantity;
       totalPrice += productInCart.unitPrice * productInCart.quantity;
     });
 
-    this.cartStatusChanged.next(new CartStatus(totalQuantity, totalPrice));
+    this._cartStatusChanged.next(new CartStatus(totalQuantity, totalPrice));
+  }
+
+  addToCart(product: Product) {
+    const foundCartItem: CartItem = this._productsInCart.find(cartItem => cartItem.id === product.id);
+
+    if (foundCartItem) {
+      foundCartItem.quantity++;
+    } else {
+      this._productsInCart = this._productsInCart.concat(new CartItem(product));
+    }
+
+    this.calculateCartTotals();
+    this._productsInCartChanged.next(this._productsInCart);
+  }
+
+  removeFromCart(productId: number) {
+    this._productsInCart = this._productsInCart.filter(cartItem => cartItem.id !== productId);
+
+    this.calculateCartTotals();
+    this._productsInCartChanged.next(this._productsInCart);
+  }
+
+  updateCartItemQuantity(productId: number, quantity: number) {
+    this._productsInCart = this._productsInCart
+      .map(cartItem => {
+        if (cartItem.id === productId) {
+          return { ...cartItem, quantity };
+        } else {
+          return cartItem;
+        }
+      });
+
+    this.calculateCartTotals();
+    this._productsInCartChanged.next(this._productsInCart);
+  }
+
+  public get productsInCart$(): Observable<CartItem[]> {
+    return this._productsInCart$;
   }
 
   public get cartStatus$(): Observable<CartStatus> {
     return this._cartStatus$;
   }
+
 }

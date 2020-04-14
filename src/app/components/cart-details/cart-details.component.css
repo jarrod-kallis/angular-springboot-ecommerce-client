@@ -1,0 +1,14 @@
+.items {
+  margin-bottom: 0.5rem;
+}
+
+.quantity-container {
+  display: flex;
+  align-items: center;
+}
+
+.quantity {
+  flex: 1;
+  margin-bottom: 0;
+  text-align: center;
+}
