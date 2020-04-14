@@ -41,6 +41,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       .subscribe(results => {
         // console.log(results);
 
+        // Read the 'keyword' from the URL, and emit it
         this.searchService.updateSearchKeyword(results.params.keyword);
 
         if (results.params.id) {

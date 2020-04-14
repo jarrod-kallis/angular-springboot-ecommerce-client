@@ -16,7 +16,7 @@ export class CartStatusComponent implements OnInit {
 
   ngOnInit() {
     // console.log('CartStatus OnInit');
-    this.cartStatusChange$ = this.cartService.cartStatusChanged;
+    this.cartStatusChange$ = this.cartService.cartStatus$;
   }
 
   getTotalPrice(cartStatus: CartStatus): number {

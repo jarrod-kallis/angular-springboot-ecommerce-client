@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
-  searchKeyword = new Subject<string>();
+  private searchKeyword = new Subject<string>();
+  private _searchKeyword$ = this.searchKeyword.asObservable();
 
   updateSearchKeyword(keyword: string) {
     this.searchKeyword.next(keyword);
+  }
+
+  public get searchKeyword$(): Observable<string> {
+    return this._searchKeyword$;
   }
 }
