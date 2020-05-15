@@ -8,7 +8,7 @@
 }
 
 .quantity {
-  flex: 1;
+  flex: 0.5;
   margin-bottom: 0;
   text-align: center;
 }
