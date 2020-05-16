@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProductListComponent } from './product/product-list/product-list.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { CartDetailsComponent } from './components/cart-details/cart-details.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 const routes: Routes = [
   { path: 'products/category/:id', component: ProductListComponent },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'products/:id', component: ProductDetailComponent },
   { path: 'search/:keyword', component: ProductListComponent },
   { path: 'cart-details', component: CartDetailsComponent },
+  { path: 'checkout', component: CheckoutComponent },
   { path: '', redirectTo: 'products', pathMatch: 'full' },
   { path: '**', redirectTo: 'products', pathMatch: 'full' }
 ];

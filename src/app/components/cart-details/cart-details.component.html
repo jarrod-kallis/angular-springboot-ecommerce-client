@@ -43,7 +43,7 @@
               <b>Total Quantity: {{ cartStatus.totalQuantity }}</b>
               <p>Shipping FREE</p>
               <b>Total Price: {{ cartStatus.totalPrice | currency : 'EUR' }}</b><br>
-              <a href="checkout-page.html" class="primary-btn">Checkout</a>
+              <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
             </td>
           </tr>
         </table>

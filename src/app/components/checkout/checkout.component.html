@@ -1,0 +1,216 @@
+<div class="main-content page-m">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="form-area" formGroupName="customer">
+          <h3>Customer</h3>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>First Name</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="firstName" autocomplete="given-name">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Last Name</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="lastName" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Email Address</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="emailAddress" autocomplete="email">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-area" formGroupName="shippingAddress">
+          <h3>Shipping Address</h3>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Country</label>
+            </div>
+            <div class="col-9 input-space">
+              <select formControlName="country">
+                <option>South Africa</option>
+                <option>Ireland</option>
+                <option>USA</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Street</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="street" autocomplete="street-address">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>City</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="city">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>State/Province</label>
+            </div>
+            <div class="col-9 input-space">
+              <select formControlName="state">
+                <option>Western Province</option>
+                <option>Somewhere in Ireland</option>
+                <option>Texas</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Zip Code / Postal Code</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="zipCode" autocomplete="postal-code">
+            </div>
+          </div>
+        </div>
+
+        <div class="input-space">
+          <label class="au-checkbox">
+            <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
+            <span class="au-checkmark"></span> Billing Address same as Shipping Adress
+          </label>
+        </div>
+
+        <div class="form-area" formGroupName="billingAddress">
+          <h3>Billing Address</h3>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Country</label>
+            </div>
+            <div class="col-9 input-space">
+              <select formControlName="country">
+                <option>South Africa</option>
+                <option>Ireland</option>
+                <option>USA</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Street</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="street" autocomplete="street-address">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>City</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="city">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>State/Province</label>
+            </div>
+            <div class="col-9 input-space">
+              <select formControlName="state">
+                <option>Western Province</option>
+                <option>Somewhere in Ireland</option>
+                <option>Texas</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Zip Code / Postal Code</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="zipCode" autocomplete="postal-code">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-area" formGroupName="creditCard">
+          <h3>Credit Card</h3>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Card Type</label>
+            </div>
+            <div class="col-9 input-space">
+              <select formControlName="type">
+                <option>Visa</option>
+                <option>Mastercard</option>
+              </select>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Name on Card</label>
+            </div>
+            <div class="col-9 input-space">
+              <input type="text" formControlName="name" autocomplete="cc-name">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Card Number</label>
+            </div>
+            <div class="col-6 input-space">
+              <input type="text" formControlName="number" autocomplete="cc-number">
+            </div>
+            <div class="col-3 input-space">
+              <input type="text" placeholder="CVV" formControlName="cvv" autocomplete="cc-csc">
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-3 form-item">
+              <label>Expiry Date</label>
+            </div>
+            <div class="col-6 input-space">
+              <select formControlName="month">
+                <option>January</option>
+                <option>February</option>
+                <option>March</option>
+                <option>April</option>
+                <option>May</option>
+              </select>
+            </div>
+            <div class="col-3 input-space">
+              <select formControlName="year">
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-area" *ngIf="(cartStatus$ | async) as cartStatus">
+          <h3>Review Your Order</h3>
+          <p>Total Quantity: {{ cartStatus.totalQuantity }}</p>
+          <p>Shipping: FREE</p>
+          <p>Total Price: {{ cartStatus.totalPrice | currency : 'EUR' }}</p>
+        </div>
+
+        <div class="text-center">
+          <button type="submit" class="btn btn-info">Purchase</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
