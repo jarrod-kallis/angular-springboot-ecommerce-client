@@ -178,23 +178,15 @@
             <div class="col-3 form-item">
               <label>Expiry Date</label>
             </div>
-            <div class="col-6 input-space">
+            <div class="col-6 input-space" *ngIf="(creditCardMonths$ | async) as creditCardMonths">
               <select formControlName="month">
-                <option>January</option>
-                <option>February</option>
-                <option>March</option>
-                <option>April</option>
-                <option>May</option>
+                <option disabled value="">Select Month</option>
+                <option *ngFor="let month of creditCardMonths" [value]="month">{{ month }}</option>
               </select>
             </div>
-            <div class="col-3 input-space">
-              <select formControlName="year">
-                <option>2025</option>
-                <option>2024</option>
-                <option>2023</option>
-                <option>2022</option>
-                <option>2021</option>
-                <option>2020</option>
+            <div class="col-3 input-space" *ngIf="(creditCardYears$ | async) as creditCardYears">
+              <select formControlName="year" (change)="cmbCreditCardYearChange()">
+                <option *ngFor="let year of creditCardYears" [value]="year">{{ year }}</option>
               </select>
             </div>
           </div>
