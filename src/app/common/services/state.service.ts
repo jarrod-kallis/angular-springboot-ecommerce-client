@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
@@ -19,7 +19,7 @@ export class StateService {
     return this.http.get<GetStates>(`${this.STATE_URL}/search/findByCountryCode?code=${countryCode}`)
       .pipe(
         map((value: GetStates) => {
-          return value._embedded.state;
+          return value._embedded.state.map(state => new State(state.id, state.name));
         })
         // tap(value => console.log(value))
       );

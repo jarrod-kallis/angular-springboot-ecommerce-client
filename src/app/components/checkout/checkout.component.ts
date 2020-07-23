@@ -11,6 +11,7 @@ import { CartStatus } from '../../common/models/cartStatus.model';
 import { CartService } from '../../common/services/cart.service';
 import { CreditCardService } from '../../common/services/credit-card.service';
 import { AddressComponent } from './address/address.component';
+import { CountryService } from '../../common/services/country.service';
 
 @Component({
   selector: 'app-checkout',
@@ -29,11 +30,15 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private cartService: CartService,
-    private creditCardService: CreditCardService
+    private creditCardService: CreditCardService,
+    private countryService: CountryService
   ) { }
 
   ngOnInit() {
     this.cartStatus$ = this.cartService.cartStatus$;
+    // The list of countries has to be the exact same array object in order to assign
+    // the selected shipping address country to the billing address, and for it to be auto-selected by the dropdown
+    this.countryService.getCountryList();
 
     // this.form = new FormGroup({
     //   customer: new FormGroup({

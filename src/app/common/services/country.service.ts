@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,27 +13,32 @@ import { Page } from '../models/page.model';
 export class CountryService {
   private COUNTRY_URL = `${environment.baseUrl}/country`;
 
-  private countries$: Observable<Country[]>;
+  private countriesSubject = new BehaviorSubject<Country[]>([]);
+  private _countries$: Observable<Country[]> = this.countriesSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
-  getCountryList(): Observable<Country[]> {
-    this.countries$ = this.http.get<GetCountries>(this.COUNTRY_URL)
+  public get countries$(): Observable<Country[]> {
+    return this._countries$;
+  }
+
+  getCountryList() {
+    this.http.get<GetCountries>(this.COUNTRY_URL)
       .pipe(
         map((value: GetCountries) => {
-          return value._embedded.country;
+          return value._embedded.country
+            .map(country => new Country(country.id, country.code, country.name, country.stateDescription, country.zipCodeDescription));
         }),
         shareReplay()
         // tap(value => console.log(value))
-      );
-
-    return this.countries$;
+      )
+      .subscribe(countries => this.countriesSubject.next(countries));
   }
 
   getCountry(countryCode: string): Observable<Country> {
-    return this.countries$
+    return this._countries$
       .pipe(
-        map(countries => countries.filter(country => country.code === countryCode)[0])
+        map(countries => countries.find(country => country.code === countryCode))
       );
   }
 }

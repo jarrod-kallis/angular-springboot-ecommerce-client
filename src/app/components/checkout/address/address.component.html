@@ -7,7 +7,7 @@
       </div>
       <div class="col-9 input-space">
         <select formControlName="country" (change)="cmbCountryChange()">
-          <option *ngFor="let country of (countries$ | async)" [value]="country.code">{{ country.name }}</option>
+          <option *ngFor="let country of (countries$ | async)" [ngValue]="country">{{ country.name }}</option>
         </select>
       </div>
     </div>
@@ -33,7 +33,7 @@
       </div>
       <div class="col-9 input-space">
         <select formControlName="state">
-          <option *ngFor="let state of (states$ | async)" [value]="state.id">{{ state.name }}</option>
+          <option *ngFor="let state of (states$ | async)" [ngValue]="state.id">{{ state.name }}</option>
         </select>
       </div>
     </div>

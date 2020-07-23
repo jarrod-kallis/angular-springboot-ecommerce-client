@@ -6,6 +6,7 @@ import { Country } from '../../../common/models/country.model';
 import { CountryService } from '../../../common/services/country.service';
 import { StateService } from '../../../common/services/state.service';
 import { State } from '../../../common/models/state.model';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-address',
@@ -21,8 +22,9 @@ export class AddressComponent implements OnInit {
   states$: Observable<State[]>;
   selectedCountry$: Observable<Country>;
 
-  @Input() update = (countryCode: string) => {
-    this.updateCountry(countryCode);
+  // Update billing address to the same as shipping address
+  @Input() update = (country: Country) => {
+    this.updateCountry(country);
   }
 
   constructor(
@@ -31,17 +33,22 @@ export class AddressComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.countries$ = this.countryService.getCountryList();
+    this.countries$ = this.countryService.countries$;
   }
 
-  updateCountry(countryCode: string) {
-    this.selectedCountry$ = this.countryService.getCountry(countryCode);
+  updateCountry(country: Country) {
+    this.selectedCountry$ = this.countryService.getCountry(country.code);
 
-    this.states$ = this.stateService.getStateListForCountry(countryCode);
-    this.formGroup.get(this.formGroupName).get('state').setValue('');
+    this.states$ = this.stateService.getStateListForCountry(country.code);
   }
 
   cmbCountryChange() {
     this.updateCountry(this.formGroup.get(this.formGroupName).value.country);
+    this.states$
+      .pipe(take(1))
+      .subscribe(states => {
+        // Automatically select the first state in the list
+        this.formGroup.get(this.formGroupName).get('state').setValue(states[0].id);
+      });
   }
 }
