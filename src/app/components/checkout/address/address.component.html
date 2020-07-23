@@ -1,0 +1,49 @@
+<div [formGroup]="formGroup">
+  <div class="form-area" [formGroupName]="formGroupName">
+    <h3>{{ title }}</h3>
+    <div class="row mb-2">
+      <div class="col-3 form-item">
+        <label>Country</label>
+      </div>
+      <div class="col-9 input-space">
+        <select formControlName="country" (change)="cmbCountryChange()">
+          <option *ngFor="let country of (countries$ | async)" [value]="country.code">{{ country.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3 form-item">
+        <label>Street</label>
+      </div>
+      <div class="col-9 input-space">
+        <input type="text" formControlName="street" autocomplete="street-address">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3 form-item">
+        <label>City</label>
+      </div>
+      <div class="col-9 input-space">
+        <input type="text" formControlName="city">
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3 form-item">
+        <label>{{ (selectedCountry$ | async)?.stateDescription || 'State' }}</label>
+      </div>
+      <div class="col-9 input-space">
+        <select formControlName="state">
+          <option *ngFor="let state of (states$ | async)" [value]="state.id">{{ state.name }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3 form-item">
+        <label>{{ (selectedCountry$ | async)?.zipCodeDescription || 'Zip Code' }}</label>
+      </div>
+      <div class="col-9 input-space">
+        <input type="text" formControlName="zipCode" autocomplete="postal-code">
+      </div>
+    </div>
+  </div>
+</div>

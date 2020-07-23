@@ -31,116 +31,17 @@
           </div>
         </div>
 
-        <div class="form-area" formGroupName="shippingAddress">
-          <h3>Shipping Address</h3>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Country</label>
-            </div>
-            <div class="col-9 input-space">
-              <select formControlName="country">
-                <option>South Africa</option>
-                <option>Ireland</option>
-                <option>USA</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Street</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="street" autocomplete="street-address">
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>City</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="city">
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>State/Province</label>
-            </div>
-            <div class="col-9 input-space">
-              <select formControlName="state">
-                <option>Western Province</option>
-                <option>Somewhere in Ireland</option>
-                <option>Texas</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Zip Code / Postal Code</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="zipCode" autocomplete="postal-code">
-            </div>
-          </div>
-        </div>
+        <app-address [formGroup]="form" formGroupName="shippingAddress" title="Shipping Address"></app-address>
 
         <div class="input-space">
           <label class="au-checkbox">
             <input type="checkbox" (change)="copyShippingAddressToBillingAddress($event)">
-            <span class="au-checkmark"></span> Billing Address same as Shipping Adress
+            <span class="au-checkmark"></span> Billing Address same as Shipping Address
           </label>
         </div>
 
-        <div class="form-area" formGroupName="billingAddress">
-          <h3>Billing Address</h3>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Country</label>
-            </div>
-            <div class="col-9 input-space">
-              <select formControlName="country">
-                <option>South Africa</option>
-                <option>Ireland</option>
-                <option>USA</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Street</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="street" autocomplete="street-address">
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>City</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="city">
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>State/Province</label>
-            </div>
-            <div class="col-9 input-space">
-              <select formControlName="state">
-                <option>Western Province</option>
-                <option>Somewhere in Ireland</option>
-                <option>Texas</option>
-              </select>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-3 form-item">
-              <label>Zip Code / Postal Code</label>
-            </div>
-            <div class="col-9 input-space">
-              <input type="text" formControlName="zipCode" autocomplete="postal-code">
-            </div>
-          </div>
-        </div>
+        <app-address [formGroup]="form" formGroupName="billingAddress" title="Billing Address" #billingAddress>
+        </app-address>
 
         <div class="form-area" formGroupName="creditCard">
           <h3>Credit Card</h3>

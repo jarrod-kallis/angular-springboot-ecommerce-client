@@ -13,9 +13,11 @@ export class CreditCardService {
 
     if (selectedYear === currentYear) {
       const currentDate = moment();
+      // Return December of current year
       const yearEndDate = moment([currentYear, 11]); // Month is 0 based
 
       const months: string[] = [];
+      // Move from current month until December
       while (yearEndDate.diff(currentDate, 'months') >= 0) {
         months.push(currentDate.format('MMMM'));
         currentDate.add(1, 'month');

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   Validators,
@@ -10,6 +10,7 @@ import { take } from 'rxjs/operators';
 import { CartStatus } from '../../common/models/cartStatus.model';
 import { CartService } from '../../common/services/cart.service';
 import { CreditCardService } from '../../common/services/credit-card.service';
+import { AddressComponent } from './address/address.component';
 
 @Component({
   selector: 'app-checkout',
@@ -23,7 +24,13 @@ export class CheckoutComponent implements OnInit {
   creditCardMonths$: Observable<string[]>;
   creditCardYears$: Observable<number[]>;
 
-  constructor(private formBuilder: FormBuilder, private cartService: CartService, private creditCardService: CreditCardService) { }
+  @ViewChild('billingAddress', { static: false }) billingAddressRef: AddressComponent;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private cartService: CartService,
+    private creditCardService: CreditCardService
+  ) { }
 
   ngOnInit() {
     this.cartStatus$ = this.cartService.cartStatus$;
@@ -80,6 +87,8 @@ export class CheckoutComponent implements OnInit {
       //   }
       // });
 
+      this.billingAddressRef.update(this.form.value.shippingAddress.country);
+
       this.form.controls.billingAddress.setValue(this.form.controls.shippingAddress.value);
     } else {
       this.form.controls.billingAddress.reset();
@@ -87,7 +96,8 @@ export class CheckoutComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.form.value.creditCard);
+    console.log(this.form.value.shippingAddress);
+    console.log(this.form.value.billingAddress);
   }
 
   cmbCreditCardYearChange() {
@@ -108,4 +118,3 @@ export class CheckoutComponent implements OnInit {
       });
   }
 }
-
