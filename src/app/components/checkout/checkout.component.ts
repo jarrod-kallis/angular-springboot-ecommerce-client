@@ -97,6 +97,8 @@ export class CheckoutComponent implements OnInit {
       this.form.controls.billingAddress.setValue(this.form.controls.shippingAddress.value);
     } else {
       this.form.controls.billingAddress.reset();
+
+      this.billingAddressRef.update(null);
     }
   }
 

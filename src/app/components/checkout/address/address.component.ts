@@ -37,9 +37,9 @@ export class AddressComponent implements OnInit {
   }
 
   updateCountry(country: Country) {
-    this.selectedCountry$ = this.countryService.getCountry(country.code);
+    this.selectedCountry$ = country ? this.countryService.getCountry(country.code) : null;
 
-    this.states$ = this.stateService.getStateListForCountry(country.code);
+    this.states$ = country ? this.stateService.getStateListForCountry(country.code) : null;
   }
 
   cmbCountryChange() {
