@@ -13,6 +13,20 @@
               <input type="text" formControlName="firstName" autocomplete="given-name">
             </div>
           </div>
+          <div *ngIf="firstNameControl.invalid && (firstNameControl.dirty || firstNameControl.touched)"
+            class="row mb-2">
+            <div class="col-3"></div>
+            <div class="col-9 alert alert-danger">
+              <div *ngIf="firstNameControl.errors.required">
+                First Name is required
+              </div>
+
+              <div *ngIf="firstNameControl.errors.minlength">
+                First Name must be at least 2 characters long
+              </div>
+            </div>
+          </div>
+
           <div class="row mb-2">
             <div class="col-3 form-item">
               <label>Last Name</label>
@@ -21,12 +35,38 @@
               <input type="text" formControlName="lastName" autocomplete="family-name">
             </div>
           </div>
+          <div *ngIf="lastNameControl.invalid && (lastNameControl.dirty || lastNameControl.touched)" class="row mb-2">
+            <div class="col-3"></div>
+            <div class="col-9 alert alert-danger">
+              <div *ngIf="lastNameControl.errors.required">
+                Last Name is required
+              </div>
+
+              <div *ngIf="lastNameControl.errors.minlength">
+                Last Name must be at least 2 characters long
+              </div>
+            </div>
+          </div>
+
           <div class="row mb-2">
             <div class="col-3 form-item">
               <label>Email Address</label>
             </div>
             <div class="col-9 input-space">
               <input type="text" formControlName="emailAddress" autocomplete="email">
+            </div>
+          </div>
+          <div *ngIf="emailAddressControl.invalid && (emailAddressControl.dirty || emailAddressControl.touched)"
+            class="row mb-2">
+            <div class="col-3"></div>
+            <div class="col-9 alert alert-danger">
+              <div *ngIf="emailAddressControl.errors.required">
+                Email Address is required
+              </div>
+
+              <div *ngIf="emailAddressControl.errors.pattern">
+                Invalid email address
+              </div>
             </div>
           </div>
         </div>

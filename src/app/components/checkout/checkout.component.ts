@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormGroup,
   Validators,
-  FormBuilder
+  FormBuilder,
+  AbstractControl
 } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -50,9 +51,13 @@ export class CheckoutComponent implements OnInit {
 
     this.form = this.formBuilder.group({
       customer: this.formBuilder.group({
-        firstName: ['', [Validators.required]],
-        lastName: ['', [Validators.required]],
-        emailAddress: ['', [Validators.email, Validators.required]]
+        firstName: ['', [Validators.required, Validators.minLength(2)]],
+        lastName: ['', [Validators.required, Validators.minLength(2)]],
+        emailAddress: ['', [
+          Validators.required,
+          // Not using Validators.email, because it's too lenient (allows an email address with no domain)
+          Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
+        ]]
       }),
       shippingAddress: this.formBuilder.group({
         country: ['', [Validators.required]],
@@ -105,6 +110,7 @@ export class CheckoutComponent implements OnInit {
   submit() {
     console.log(this.form.value.shippingAddress);
     console.log(this.form.value.billingAddress);
+    console.log(this.form.get('customer').valid);
   }
 
   cmbCreditCardYearChange() {
@@ -123,5 +129,21 @@ export class CheckoutComponent implements OnInit {
           });
         }
       });
+  }
+
+  get customerControl(): AbstractControl {
+    return this.form.get('customer');
+  }
+
+  get firstNameControl(): AbstractControl {
+    return this.customerControl.get('firstName');
+  }
+
+  get lastNameControl(): AbstractControl {
+    return this.customerControl.get('lastName');
+  }
+
+  get emailAddressControl(): AbstractControl {
+    return this.customerControl.get('emailAddress');
   }
 }
